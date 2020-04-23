@@ -122,8 +122,15 @@
               "devServerTarget": "mc-pwa-tools:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "baseHref": "/mc-tools/"
+          }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "mc-pwa-tools"
 }
