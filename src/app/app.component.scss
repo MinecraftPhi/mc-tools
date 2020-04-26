@@ -48,14 +48,16 @@ nz-header {
         display: inline-block;
     }
 
-    // Remove right padding on last element. Add more levels of nesting as needed
-    > :last-child {
-        padding-right: 0;
-
+    // Remove right padding on last element. Increase depth as needed
+    @mixin reset-right-padding($depth) {
         > :last-child {
             padding-right: 0;
+            @if $depth > 1 {
+                @include reset-right-padding($depth - 1);
+            }
         }
     }
+    @include reset-right-padding(2);
 }
 
 .fill-hspace {
