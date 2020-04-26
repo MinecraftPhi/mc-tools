@@ -1,3 +1,16 @@
-<h1>Minecraft Data and Resource Pack Tools</h1>
-
-<p>This site will contain many tools for minecraft data and resource pack development</p>
+<nz-layout class="app-layout">
+  <nz-header>
+    <div class="logo">
+      <a routerLink="/">
+        <img src="assets/phi_square.png" alt="logo">
+        <h1>MC Pack Tools</h1>
+      </a>
+    </div>
+    <ul nz-menu class="top-nav" nzTheme="dark" nzMode="horizontal">
+      <li nz-menu-item routerLinkActive="ant-menu-item-selected" routerLink="/home">Home</li>
+    </ul>
+  </nz-header>
+  <nz-content>
+    <router-outlet></router-outlet>
+  </nz-content>
+</nz-layout>
