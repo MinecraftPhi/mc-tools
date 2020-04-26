@@ -9,8 +9,15 @@
     <ul nz-menu class="top-nav" nzTheme="dark" nzMode="horizontal">
       <li nz-menu-item routerLinkActive="ant-menu-item-selected" routerLink="/home">Home</li>
     </ul>
+    <div class="fill-hspace"></div>
+    <div>
+      <a nz-button nzType="link" nzGhost (click)="toolsVisible = true">
+        Available Tools<span nz-icon nzType="menu"></span>
+      </a>
+    </div>
   </nz-header>
   <nz-content>
     <router-outlet></router-outlet>
   </nz-content>
 </nz-layout>
+<nz-drawer nzTitle="Tools" [nzVisible]="toolsVisible" (nzOnClose)="toolsVisible = false"></nz-drawer>

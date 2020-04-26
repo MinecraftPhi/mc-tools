@@ -8,6 +8,7 @@
 
 .top-nav {
     line-height: 64px;
+    padding-right: 24px;
 }
 
 .logo {
@@ -37,4 +38,20 @@
 
 nz-content {
     padding: 24px 50px;
+}
+
+nz-header {
+    display: flex;
+    color: white;
+    padding-right: calc(50px - 15px);
+    // padding: 0 0 0 15px;
+
+    > div {
+        display: inline-block;
+    }
+}
+
+.fill-hspace {
+    flex: 1 1 auto;
+    display: inline-block;
 }

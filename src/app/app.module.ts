@@ -7,20 +7,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { IconDefinition } from '@ant-design/icons-angular';
-import { MenuFoldOutline, MenuUnfoldOutline } from '@ant-design/icons-angular/icons';
+import { MenuOutline } from '@ant-design/icons-angular/icons';
 
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 registerLocaleData(en);
 
-const icons: IconDefinition[] = [ MenuFoldOutline, MenuUnfoldOutline ];
+const icons: IconDefinition[] = [ MenuOutline ];
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ const icons: IconDefinition[] = [ MenuFoldOutline, MenuUnfoldOutline ];
     NzLayoutModule,
     NzMenuModule,
     NzButtonModule,
-    NzIconModule.forRoot(icons)
+    NzIconModule.forRoot(icons),
+    NzDrawerModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
