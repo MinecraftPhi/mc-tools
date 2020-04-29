@@ -15,9 +15,12 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
+import { VersionComponent } from './components/version/version.component';
 
 registerLocaleData(en);
 
@@ -25,7 +28,8 @@ const icons: IconDefinition[] = [ MenuOutline ];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    VersionComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +41,8 @@ const icons: IconDefinition[] = [ MenuOutline ];
     NzMenuModule,
     NzButtonModule,
     NzIconModule.forRoot(icons),
-    NzDrawerModule
+    NzDrawerModule,
+    NzSelectModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]

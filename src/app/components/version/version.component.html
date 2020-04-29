@@ -1,0 +1,3 @@
+<nz-select [(ngModel)]="selectedVersion" [nzLoading]="isLoading | async" nzPlaceHolder="Select Version" id="versionSelector">
+    <nz-option *ngFor="let version of versions | async" [nzValue]="version" [nzLabel]="version"></nz-option>
+</nz-select>
