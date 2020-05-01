@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { VersionService, FetchingStatus } from 'src/app/services/version.service';
+import { VersionService, FetchingStatus } from 'src/app/services/version/version.service';
 
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
