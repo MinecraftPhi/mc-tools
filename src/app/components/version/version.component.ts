@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
-import { VersionService, FetchingStatus } from 'src/app/services/version/version.service';
+import { VersionService } from 'src/app/services/version/version.service';
 
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+
+import { ResourceStatus } from 'src/app/services/refreshable-resource/refreshable-resource.service';
 
 @Component({
   selector: 'version-selector',
@@ -20,10 +22,11 @@ export class VersionComponent implements OnInit {
   versions: Observable<string[]>;
   
   ngOnInit(): void {
-    this.isLoading = this.versionService.versionManifestStatus.pipe(
-      map(s => s == FetchingStatus.Unloaded || s == FetchingStatus.Loading)
+    const versionManifest = this.versionService.versionManifest;
+    this.isLoading = versionManifest.status$.pipe(
+      map(s => s == ResourceStatus.Unloaded || s == ResourceStatus.Loading)
     );
-    this.versions = this.versionService.versionManifest.pipe(
+    this.versions = versionManifest.data$.pipe(
       map(m => m.versions.map(v => v.id))
     );
   }

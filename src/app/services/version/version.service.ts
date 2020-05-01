@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 
-import { shareReplay, map, tap, switchMap, catchError, startWith } from "rxjs/operators";
-import { Observable, Subject, BehaviorSubject, ReplaySubject, empty } from 'rxjs';
+import { RefreshableResource } from '../refreshable-resource/refreshable-resource.service';
 
 export interface Version {
   id: string,
@@ -13,18 +12,14 @@ export interface Version {
 }
 
 interface VersionManifest {
-  latest?: {
+  latest: {
     release: string,
     snapshot: string
   },
-  versions?: Version[]
+  versions: Version[]
 }
 
 const versionManifestUrl = 'https://launchermeta.mojang.com/mc/game/version_manifest.json';
-
-export enum FetchingStatus {
-  Unloaded, Loading, Loaded, Errored
-}
 
 @Injectable({
   providedIn: 'root'
@@ -32,33 +27,11 @@ export enum FetchingStatus {
 export class VersionService {
   constructor(
     private http: HttpClient
-  ) { }
-
-  // TODO: split loading logic into separate service/class for loading a generic request that can be refreshed
-  private readonly versionManifestRefreshSubject = new Subject<void>();
-  readonly versionManifestStatus = new BehaviorSubject<FetchingStatus>(FetchingStatus.Unloaded);
-  readonly versionManifestError = new ReplaySubject<HttpErrorResponse>();
-  readonly versionManifest: Observable<VersionManifest> = this.versionManifestRefreshSubject.pipe(
-    startWith(""),
-    tap(() => this.versionManifestStatus.next(FetchingStatus.Loading)),
-    switchMap(() => this.fetchVersionManifest()),
-    tap(() => this.versionManifestStatus.next(FetchingStatus.Loaded)),
-    shareReplay(1)
-  );
-
-  refreshVersions() {
-    this.versionManifestRefreshSubject.next();
+  ) {
+    this.versionManifest = new RefreshableResource<VersionManifest>(versionManifestUrl, http);
   }
 
-  private fetchVersionManifest() {
-    return this.http.get<VersionManifest>(versionManifestUrl, { observe: 'body', responseType: 'json' }).pipe(
-      catchError(e => {
-        this.versionManifestError.next(e);
-        this.versionManifestStatus.next(FetchingStatus.Errored);
-        return empty();
-      })
-    )
-  }
+  readonly versionManifest: RefreshableResource<VersionManifest>;
   
   // TODO: Allow choosing the selected version, defaulting to the most recent release
   // TODO: Add ability to load more data about each version lazily
