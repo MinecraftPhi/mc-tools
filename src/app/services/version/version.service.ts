@@ -3,15 +3,22 @@ import { HttpClient } from "@angular/common/http";
 
 import { RefreshableResource } from '../refreshable-resource/refreshable-resource.service';
 
+export enum VersionType {
+  snapshot = 'snapshot',
+  release = 'release',
+  old_beta = 'old_beta',
+  old_alpha = 'old_alpha'
+}
+
 export interface Version {
   id: string,
-  type: 'snapshot' | 'release' | 'old_beta' | 'old_alpha',
+  type: VersionType,
   url: string,
   time: string,
   releaseTime: string
 }
 
-interface VersionManifest {
+export interface VersionManifest {
   latest: {
     release: string,
     snapshot: string

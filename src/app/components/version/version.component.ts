@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
-import { VersionService } from 'src/app/services/version/version.service';
+import { VersionService, VersionType } from 'src/app/services/version/version.service';
 
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ResourceStatus } from 'src/app/services/refreshable-resource/refreshable-resource.service';
+import { combineLatestRecursive } from 'src/app/utilities/observable';
 
 @Component({
   selector: 'version-selector',
@@ -20,15 +21,30 @@ export class VersionComponent implements OnInit {
   selectedVersion: string;
   isLoading: Observable<boolean>;
   versions: Observable<string[]>;
+  includeSnapshots$ = new BehaviorSubject(false);
+  includeBeta$ = new BehaviorSubject(false);
+  includeAlpha$ = new BehaviorSubject(false);
   
   ngOnInit(): void {
     const versionManifest = this.versionService.versionManifest;
     this.isLoading = versionManifest.status$.pipe(
       map(s => s == ResourceStatus.Unloaded || s == ResourceStatus.Loading)
     );
-    this.versions = versionManifest.data$.pipe(
-      map(m => m.versions.map(v => v.id))
-    );
+
+    this.versions = combineLatestRecursive({
+      manifest: versionManifest.data$,
+      include: {
+        [VersionType.release]: true,
+        [VersionType.snapshot]: this.includeSnapshots$,
+        [VersionType.old_beta]: this.includeBeta$,
+        [VersionType.old_alpha]: this.includeAlpha$
+      }
+    }).pipe(
+      map(l => l.manifest.versions
+        .filter(v => l.include[v.type])
+        .map(v => v.id)
+      )
+    )
   }
 
 }
