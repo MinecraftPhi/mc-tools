@@ -62,5 +62,14 @@ export abstract class RefreshableResourceService<T> {
     private http: HttpClient
   ) { }
 
-  // TODO: map of url -> RefreshableResource for in-memory caching
+  private readonly cache: Record<string, RefreshableResource<T>> = {};
+
+  getResource(url: string)
+  {
+    if(!(url in this.cache))
+    {
+      this.cache[url] = new RefreshableResource<T>(url, this.http);
+    }
+    return this.cache[url];
+  }
 }
