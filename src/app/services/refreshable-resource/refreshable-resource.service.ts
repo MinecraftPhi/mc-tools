@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-import { Subject, BehaviorSubject, ReplaySubject, empty } from 'rxjs';
-import { startWith, tap, switchMap, shareReplay, catchError, withLatestFrom, filter, debounceTime } from 'rxjs/operators';
+import { Subject, BehaviorSubject, empty } from 'rxjs';
+import { startWith, tap, switchMap, shareReplay, catchError, withLatestFrom, filter, throttleTime } from 'rxjs/operators';
 
 export enum ResourceStatus {
   Unloaded = 'Unloaded',
@@ -22,7 +22,7 @@ export class RefreshableResource<T> {
 
   readonly data$ = this.refresh$.pipe(                            // On each refresh
     startWith(""),                                                // Load on first subscription without waiting for a refresh
-    debounceTime(500),                                            // Avoid rapid requests
+    throttleTime(500),                                            // Avoid rapid requests
     withLatestFrom(this.statusSubject$),                          // Check current status:
     filter(([_, s]) => s != ResourceStatus.Loading),              //    To prevent sending multiple requests simultaneously
     tap(() => this.statusSubject$.next(ResourceStatus.Loading)),  // Notify that the data is loading
