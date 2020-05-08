@@ -1,8 +1,11 @@
-<nz-select [(ngModel)]="selectedVersion" [nzLoading]="isLoading | async" [nzDropdownRender]="dropdownTemplate" nzPlaceHolder="Select Version" id="versionSelector" nzShowSearch>
+<nz-select [(ngModel)]="selectedVersion" [nzLoading]="isLoading | async" [nzDropdownRender]="dropdownTemplate" nzPlaceHolder="Select Version" class="versionSelector" nzShowSearch>
     <nz-option *ngFor="let version of versions | async" [nzValue]="version" [nzLabel]="version"></nz-option>
 </nz-select>
 <ng-template #dropdownTemplate>
-    <div id="versionOptions">
+    <div class="versionOptions">
+        <a class="refresh" nz-button nzType="link" (click)="versionService.versionManifest.refresh()">
+            <span nz-icon nzType="sync" [nzSpin]="isLoading | async" ></span>
+        </a>
         <label nz-checkbox [ngModel]="includeSnapshots$ | async" (ngModelChange)="includeSnapshots$.next($event)">Snapshots</label>
         <br/>
         <label nz-checkbox [ngModel]="includeBeta$ | async" (ngModelChange)="includeBeta$.next($event)">Beta</label>

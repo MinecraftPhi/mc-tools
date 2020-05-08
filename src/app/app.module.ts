@@ -7,7 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { IconDefinition } from '@ant-design/icons-angular';
-import { MenuOutline } from '@ant-design/icons-angular/icons';
+import { MenuOutline, SyncOutline } from '@ant-design/icons-angular/icons';
 
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
@@ -25,7 +25,7 @@ import { VersionComponent } from './components/version/version.component';
 
 registerLocaleData(en);
 
-const icons: IconDefinition[] = [ MenuOutline ];
+const icons: IconDefinition[] = [ MenuOutline, SyncOutline ];
 
 @NgModule({
   declarations: [

@@ -2,10 +2,16 @@
   display: block;
 }
 
-#versionSelector {
+.versionSelector {
   width: 200px;
 }
 
-#versionOptions {
+.versionOptions {
   padding: 5px;
+}
+
+.refresh {
+  float: right;
+  padding: 0;
+  line-height: initial;
 }
